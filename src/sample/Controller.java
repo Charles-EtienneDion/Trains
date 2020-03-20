@@ -10,6 +10,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.stage.Stage;
@@ -17,6 +18,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -28,12 +30,38 @@ public class Controller implements Initializable {
 
     @FXML
     private Line lineA1, lineABC, lineB1, lineAB, lineB3, lineA5, lineBC, lineB5, lineB7, lineA3;
+    private int nbTrainA, nbTrainB;
 
     private static Controller controller = null;
+    ArrayList<TrainA> arrayTrainA = new ArrayList<>();
+    ArrayList<TrainB> arrayTrainB = new ArrayList<>();
 
-    public static Controller getInstance()
-    {
+    public static Controller getInstance() {
         return controller;
+    }
+
+    public int getNbTrainA() {
+        return nbTrainA;
+    }
+
+    public void setNbTrainA(int nbTrainA) {
+        this.nbTrainA = nbTrainA;
+    }
+
+    public int getNbTrainB() {
+        return nbTrainB;
+    }
+
+    public void setNbTrainB(int nbTrainB) {
+        this.nbTrainB = nbTrainB;
+    }
+
+    public ArrayList<TrainA> getArrayTrainA() {
+        return arrayTrainA;
+    }
+
+    public ArrayList<TrainB> getArrayTrainB() {
+        return arrayTrainB;
     }
 
     @FXML
@@ -43,15 +71,37 @@ public class Controller implements Initializable {
         Stage stage = new Stage();
         stage.setScene(scene);
         stage.setTitle("TP2");
-        stage.show();
+
+
+        getInstance().setNbTrainA(Integer.parseInt(nbTA.getText()));
+        getInstance().setNbTrainB(Integer.parseInt(nbTB.getText()));
+        initTrains();
         nbTA.getScene().getWindow().hide();
+
+        stage.show();
+    }
+
+    public void initTrains() {
+        for (int i = 1; i <= getInstance().getNbTrainA(); i++) {
+            TrainA trainA = new TrainA(i);
+            getInstance().anchorPane.getChildren().add(trainA.getShape());
+            getInstance().arrayTrainA.add(trainA);
+        }
+        for (int x = 1; x <= getInstance().getNbTrainB(); x++) {
+            TrainB trainB = new TrainB(x);
+            getInstance().anchorPane.getChildren().add(trainB.getShape());
+            getInstance().arrayTrainB.add(trainB);
+        }
     }
 
     @FXML
     void startThreads(ActionEvent event) {
-        TrainB trainB = new TrainB(1, TrainState.B1);
-        anchorPane.getChildren().add(trainB.getShape());
-        trainB.run();
+        for (TrainA trainA : getInstance().getArrayTrainA()) {
+            trainA.run();
+        }
+        for (TrainB trainB : getInstance().getArrayTrainB()) {
+            trainB.run();
+        }
     }
 
     Line getLine(TrainState state) {
@@ -60,17 +110,17 @@ public class Controller implements Initializable {
             case A1:
                 line = lineA1;
                 break;
-            case AB:
+            case ABa:
                 line = lineAB;
                 break;
             case A3:
                 line = lineA3;
                 break;
-            case A4:
+            case ABCa:
                 line = lineABC;
                 break;
             case A5:
-                line = null;
+                line = lineA5;
                 break;
             case B1:
                 line = lineB1;
@@ -87,23 +137,37 @@ public class Controller implements Initializable {
             case B7:
                 line = lineB7;
                 break;
+            case ABb:
+                line = lineAB;
+                break;
+            case ABCb:
+                line = lineABC;
+                break;
         }
         return line;
     }
 
     void moveTrain(TrainInterface train) {
-        PathTransition transition = new PathTransition();
-        transition.setNode(train.getShape());
-        transition.setDuration(Duration.seconds(3));
-        transition.setPath(getLine(train.getState()));
-        transition.setCycleCount(1);
+        if (getLine(train.getState()) == null) {
+            //Remove shape from anchorpane
+        } else {
 
-        PauseTransition pause = new PauseTransition(Duration.seconds(3));
-        pause.setOnFinished(event1 -> {
-            System.out.println("Finished");
-        });
-        pause.play();
-        transition.play();
+
+            PathTransition transition = new PathTransition();
+            train.getShape().setFill(Color.GREEN);
+            transition.setNode(train.getShape());
+            transition.setDuration(Duration.seconds(3));
+            transition.setPath(getLine(train.getState()));
+            transition.setCycleCount(1);
+
+            PauseTransition pause = new PauseTransition(Duration.seconds(3));
+            pause.setOnFinished(event1 -> {
+                train.getShape().setFill(Color.RED);
+                train.updatePosition(train.getShape().getLayoutX(), train.getShape().getLayoutY());
+            });
+            pause.play();
+            transition.play();
+        }
     }
 
     @Override

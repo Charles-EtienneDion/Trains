@@ -10,10 +10,10 @@ public class TrainB implements Runnable, TrainInterface {
     private Circle shape;
 
 
-    public TrainB(int id, TrainState state) {
+    public TrainB(int id) {
         this.id = id;
-        this.state = state;
-        this.shape = new Circle(64,125,10, Color.RED);
+        this.state = TrainState.B1;
+        this.shape = new Circle(64,347,10, Color.RED);
     }
 
     public int getId() {
@@ -22,6 +22,13 @@ public class TrainB implements Runnable, TrainInterface {
 
     public TrainState getState() {
         return state;
+    }
+
+    @Override
+    public void updatePosition(double X, double Y) {
+        this.getShape().setCenterX(X);
+        this.getShape().setCenterY(Y);
+        this.nextState();
     }
 
     public void setState(TrainState state) {
@@ -45,7 +52,7 @@ public class TrainB implements Runnable, TrainInterface {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
         Controller.getInstance().moveTrain(this);
     }
 }

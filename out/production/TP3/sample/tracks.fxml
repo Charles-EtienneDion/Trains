@@ -7,16 +7,16 @@
 
 <AnchorPane fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Controller">
    <children>
-      <Line fx:id="lineB1" endX="115.70709228515625" endY="-225.29290771484375" layoutX="167.0" layoutY="464.0" startX="-99.0" startY="-115.0" strokeWidth="5.0" />
+      <Line fx:id="lineB1" endX="115.70709228515625" endY="-225.29290771484375" layoutX="167.0" layoutY="464.0" startX="-103.0" startY="-117.0" strokeWidth="5.0" />
       <Line fx:id="lineAB" endX="100.0" layoutX="384.0" layoutY="238.0" startX="-101.29290771484375" startY="0.70709228515625" strokeWidth="5.0" />
-      <Line fx:id="lineA1" endX="1.0" layoutX="281.0" layoutY="238.0" startX="-217.0" startY="-113.0" strokeWidth="5.0" />
+      <Line fx:id="lineA1" endX="1.0" layoutX="281.0" layoutY="238.0" startX="-217.0" startY="-110.0" strokeWidth="5.0" />
       <Line fx:id="lineA3" endX="103.0" endY="32.0" layoutX="585.0" layoutY="236.0" startX="-100.0" startY="5.0" strokeWidth="5.0" />
       <Line fx:id="lineABC" endX="100.0" layoutX="789.0" layoutY="268.0" startX="-100.0" strokeWidth="5.0" />
-      <Line fx:id="lineB3" endX="-11.4644775390625" endY="-95.64645385742188" layoutX="499.0" layoutY="334.0" startX="-182.0" startY="105.0" strokeWidth="5.0" />
+      <Line fx:id="lineB3" endX="-137.0" endY="68.0" layoutX="454.0" layoutY="371.0" startX="33.5355224609375" startY="-132.64645385742188" strokeWidth="5.0" />
       <Line fx:id="lineA5" endX="-39.0" endY="-87.0" layoutX="991.0" layoutY="268.0" startX="-100.0" strokeWidth="5.0" />
       <Line fx:id="lineBC" endX="98.9644775390625" layoutX="416.0" layoutY="442.0" startX="-100.0" strokeWidth="5.0" />
       <Line fx:id="lineB5" endX="1.70709228515625" endY="-84.29287719726562" layoutX="687.0" layoutY="353.0" startX="-168.5" startY="89.0" strokeWidth="5.0" />
-      <Line fx:id="lineB7" endX="-24.7071533203125" endY="-59.29290771484375" layoutX="915.0" layoutY="328.0" startX="-103.0" startY="23.0" strokeWidth="5.0" />
+      <Line fx:id="lineB7" endX="-48.0" endY="-28.0" layoutX="889.0" layoutY="402.0" startX="2.5" startY="-134.0" strokeWidth="5.0" />
       <Label layoutX="761.0" layoutY="230.0" text="ABC" />
       <Label layoutX="138.0" layoutY="128.0" text="A1" />
       <Label layoutX="118.0" layoutY="278.0" text="B1" />

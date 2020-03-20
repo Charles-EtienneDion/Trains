@@ -10,4 +10,5 @@ public interface TrainInterface {
     public int getId();
     public Shape getShape();
     public TrainState getState();
+    public void updatePosition(double X, double Y);
 }
