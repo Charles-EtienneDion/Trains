@@ -21,6 +21,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import static sample.TrainStatus.late;
+import static sample.TrainStatus.ready;
+
 public class Controller implements Initializable {
     @FXML
     private AnchorPane anchorPane;
@@ -147,29 +150,54 @@ public class Controller implements Initializable {
         return line;
     }
 
+
     void moveTrain(TrainInterface train) {
         if (getLine(train.getState()) == null) {
             //Remove shape from anchorpane
-        } else {
+        }
+        else {
+            if (getLine(train.getState()) != lineAB || getLine(train.getState()) != lineABC) {
+                    statusTrain(train);
+            }
+            else {
+                    //Priorite Train B par rapport Train A
+                    statusTrain(train);
+            }
+        }
+    }
+    void pauseTrain(TrainInterface train) {
+        PauseTransition pause = new PauseTransition(Duration.seconds(5));
+        pause.setOnFinished(event1 -> {
+            train.getShape().setFill(Color.RED);
+            train.updatePosition(train.getShape().getLayoutX(), train.getShape().getLayoutY());
+        });
+        pause.play();
+    }
 
-
+    void statusTrain(TrainInterface train) {
+        if(train.getStatus() == ready){
             PathTransition transition = new PathTransition();
             train.getShape().setFill(Color.GREEN);
             transition.setNode(train.getShape());
-            transition.setDuration(Duration.seconds(3));
+            transition.setDuration(Duration.seconds(5));
             transition.setPath(getLine(train.getState()));
             transition.setCycleCount(1);
-
-            PauseTransition pause = new PauseTransition(Duration.seconds(3));
-            pause.setOnFinished(event1 -> {
-                train.getShape().setFill(Color.RED);
-                train.updatePosition(train.getShape().getLayoutX(), train.getShape().getLayoutY());
-            });
-            pause.play();
+            pauseTrain(train);
             transition.play();
         }
+        else if (train.getStatus() == late){
+            PauseTransition late = new PauseTransition(Duration.seconds(5));
+            train.getShape().setFill(Color.BLUE);
+            late.play();
+            pauseTrain(train);
+        }
+        else{
+            PauseTransition repair = new PauseTransition(Duration.seconds(5));
+                train.getShape().setFill(Color.YELLOW);
+            repair.play();
+           pauseTrain(train);
+        }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         controller = this;
